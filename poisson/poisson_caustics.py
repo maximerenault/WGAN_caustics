@@ -88,16 +88,6 @@ class CausticsDesign:
         self.loss = (loss-np.mean(loss))/self.w
         return
 
-    def show_image(self) :
-        npimg = np.array(self.img_grey,dtype=float)
-        plt.imshow(npimg, cmap='gray')
-        return
-
-    def show_loss(self) :
-        source = plt.imshow(self.loss, cmap='gray')
-        plt.colorbar(source)
-        return
-
     def compute_transport_map(self, it_nb : int) :
         # Solves Poisson's equation to map
         # the light source to the light goal
@@ -179,7 +169,7 @@ class CausticsDesign:
         border_cells1 = np.array([[[i, i+1+(w+1)*(h+1), i+(w+1)*(h+1)],[i, i+1, i+1+(w+1)*(h+1)]] for i in range(w)]).reshape(w*2,3) + h*(w+1)          
         border_cells2 = np.array([[[i*(w+1), (w+1)*(h+i+2), (w+1)*(h+i+1)],[i*(w+1), (i+1)*(w+1), (w+1)*(h+i+2)]] for i in range(h)]).reshape(h*2,3)    
         border_cells3 = np.array([[[i*(w+1), (w+1)*(h+i+1), (w+1)*(h+i+2)],[i*(w+1), (w+1)*(h+i+2), (i+1)*(w+1)]] for i in range(h)]).reshape(h*2,3) + w
-
+        # Lens vertices
         lens_vertices = np.concatenate((self.lens_grid, self.height.reshape(h+1,w+1,1)),axis=2).reshape((h+1)*(w+1),3)
 
         # Concatenate everything to build one mesh
@@ -196,4 +186,19 @@ class CausticsDesign:
 
         final_mesh = trimesh.Trimesh(vertices, cells)
         final_mesh.export(self.file_name+"_"+str(w)+"_mesh.stl")
+        return
+
+    def show_image(self) :
+        npimg = np.array(self.img_grey,dtype=float)
+        plt.imshow(npimg, cmap='gray')
+        return
+
+    def show_loss(self) :
+        plt.imshow(self.loss, cmap='gray')
+        plt.colorbar(orientation='vertical')
+        return
+
+    def show_height(self) :
+        plt.imshow(self.height, cmap='gray')
+        plt.colorbar(orientation='vertical')
         return
