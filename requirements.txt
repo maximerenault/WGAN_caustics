@@ -1,0 +1,7 @@
+scipy
+numpy
+PIL
+trimesh
+matplotlib
+dolfin
+shapely
