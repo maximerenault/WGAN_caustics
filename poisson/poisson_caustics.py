@@ -80,7 +80,7 @@ class CausticsDesign:
             source  = utils.integrate_img(self.h, self.w, self.img_grey)
             areas   = utils.influence_area(self.h, self.w, self.lens_grid)
         else :
-            source  = self.img_grey
+            source  = np.array(self.img_grey, dtype=float)
             areas   = utils.get_area_matrix(self.lens_grid, False)
         
         allbright = np.sum(source)
