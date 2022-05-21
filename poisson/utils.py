@@ -176,7 +176,7 @@ def find_dt(grid, grad):
 
 
 
-def solve_poisson(h : int, w : int, lens_mesh, loss, voron, source_to_div = 0, out_grad = True):
+def solve_poisson(h : int, w : int, lens_mesh, loss, voron, source_to_div = np.array([]), out_grad = True):
     # Solves Poisson equation 
 
     # Define function space
@@ -194,7 +194,7 @@ def solve_poisson(h : int, w : int, lens_mesh, loss, voron, source_to_div = 0, o
     (u,c) = dlf.TrialFunction(V_uc)
     (v,d) = dlf.TestFunction(V_uc)
 
-    if source_to_div == 0 :
+    if source_to_div.shape[0] == 0 :
         f = dlf.Function(V_u)
         f = dlf.fem.interpolation.interpolate(f, V_u)
 

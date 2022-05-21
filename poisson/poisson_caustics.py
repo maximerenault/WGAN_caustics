@@ -25,7 +25,7 @@ import PIL
 import trimesh
 import dolfin as dlf
 import matplotlib.pyplot as plt
-import scipy
+import scipy.interpolate as interp
 import utils
 
 class CausticsDesign:
@@ -101,7 +101,7 @@ class CausticsDesign:
         if self.voron :
             use_loss = self.loss
         else :
-            use_loss = scipy.interpolate.RectBivariateSpline(np.linspace(0.5, self.h-0.5, self.h, dtype = np.float64),\
+            use_loss = interp.RectBivariateSpline(np.linspace(0.5, self.h-0.5, self.h, dtype = np.float64),\
                                                              np.linspace(0.5, self.w-0.5, self.w, dtype = np.float64), self.loss)
 
         while compt < self.it_nb :
@@ -116,13 +116,13 @@ class CausticsDesign:
             self.lens_grid += dt*lens_grad
 
             self.lens_mesh = utils.gen_mesh(self.lens_grid.reshape((self.h+1)*(self.w+1),2), self.lens_cells)
-            self.loss = self.compute_loss(self.voron)
+            self.compute_loss(self.voron)
             max_l = np.max(self.loss)
             min_l = np.min(self.loss)
             tot_l = np.sum(np.abs(self.loss))
 
             if not self.voron :
-                use_loss = scipy.interpolate.RectBivariateSpline(np.linspace(0.5, self.h-0.5, self.h, dtype = np.float64),\
+                use_loss = interp.RectBivariateSpline(np.linspace(0.5, self.h-0.5, self.h, dtype = np.float64),\
                                                                  np.linspace(0.5, self.w-0.5, self.w, dtype = np.float64), self.loss)
             compt += 1
 
