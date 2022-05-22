@@ -3,5 +3,5 @@ numpy
 PIL
 trimesh
 matplotlib
-dolfin
+fenics-ffc
 shapely
